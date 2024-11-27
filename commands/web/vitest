@@ -12,15 +12,17 @@ if ! command -v /var/www/html/node_modules/.bin/vitest  >/dev/null; then
   exit 1
 fi
 
-while [ $# -gt 0 ]; do
-  case "$1" in
-  --ui)
-    # If the developer wants to start the vitest-ui, we'll override the command with a DDEV compatible version.
-    /var/www/html/node_modules/.bin/vitest --ui --open=false --api.strictPort=true --api.host=0.0.0.0
-    exit 0;
-    ;;
-  esac
-  shift
+for arg in "$@"; do
+    # Highjack the command to start the UI server
+    if [[ "$arg" == "--ui" ]]; then
+        # This is the command to that starts the server in a start compatible with DDEV.
+        # "--open=false": do NOT open a new browser
+        # "--api.strictPort=true": do NOT attempt to find available port
+        # "--api.host=0.0.0.0": respond to all host
+        /var/www/html/node_modules/.bin/vitest --ui --open=false --api.strictPort=true --api.host=0.0.0.0
+        exit 0;
+    fi
 done
 
+# Pass all flags through to vitest, if `--ui` was NOT included.
 /var/www/html/node_modules/.bin/vitest "$@"
