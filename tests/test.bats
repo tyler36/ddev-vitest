@@ -32,6 +32,23 @@ teardown() {
   health_checks
 }
 
+@test "vitest helper command" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get ${DIR}
+  ddev restart
+
+  # Add required node package.
+  ddev npm install -D vitest
+
+  # Add tests.
+  cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
+
+  # ASSERT it can run tests.
+  ddev vitest run | grep "1 passed (1)"
+}
+
 # bats test_tags=release
 @test "install from release" {
   set -eu -o pipefail
