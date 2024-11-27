@@ -1,0 +1,13 @@
+#!/bin/bash
+
+## #ddev-generated
+## Description: Launch the Vitest-UI.
+## Usage: vitest-ui
+## Example: "ddev vitest-ui"
+
+if ! command -v ./node_modules/.bin/vitest  >/dev/null; then
+  echo "Vitest is not available. You may need to install it. Eg. 'npm install -D vitest'"
+  exit 1
+fi
+
+ddev launch :51204/__vitest__/ & ddev vitest --ui

@@ -1,0 +1,5 @@
+web_extra_exposed_ports:
+  - name: vitest-ui
+    container_port: 51204
+    http_port: 51203
+    https_port: 51204

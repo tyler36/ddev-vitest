@@ -1,0 +1,8 @@
+# Details about the install.yaml file are at https://ddev.readthedocs.io/en/stable/users/extend/additional-services/#sections-and-features-of-ddev-get-add-on-installyaml
+
+name: vitest
+
+project_files:
+  - config.vitest-ui.yaml
+  - commands/host/vitest-ui
+  - commands/web/vitest

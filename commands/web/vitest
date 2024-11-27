@@ -1,0 +1,26 @@
+#!/bin/bash
+
+## #ddev-generated
+## Description: Helper function for Vitest.
+## Usage: vitest [flags] [args]
+## Example: "ddev vitest", "ddev vitest --ui"
+## ExecRaw: true
+## HostWorkingDir: true
+
+if ! command -v /var/www/html/node_modules/.bin/vitest  >/dev/null; then
+  echo "Vitest is not available. You may need to install it. Eg. 'npm install -D vitest'"
+  exit 1
+fi
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  --ui)
+    # If the developer wants to start the vitest-ui, we'll override the command with a DDEV compatible version.
+    /var/www/html/node_modules/.bin/vitest --ui --open=false --api.strictPort=true --api.host=0.0.0.0
+    exit 0;
+    ;;
+  esac
+  shift
+done
+
+/var/www/html/node_modules/.bin/vitest "$@"
