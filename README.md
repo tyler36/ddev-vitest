@@ -56,12 +56,13 @@ For example, to see the currently installed version of Vitest:
 
 ### `ddev vitest-ui`
 
-`ddev vitest-ui` attempts to start the Vitest UI server and launches the website in your default browser.
-If the server is already running, you may see "Port 51204 is already in use" error, which can be safely ignored.
+Use the following command to start the Vitest UI server and launch the site in your default browser:
 
 ```shell
-ddev vitest-ui
+ddev vitest-ui -s
 ```
+
+If the server is already started, use `ddev vitest-ui` to launch the site
 
 ## Auto-start Vitest UI
 
