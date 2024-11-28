@@ -3,7 +3,7 @@
 ## #ddev-generated
 ## Description: Launch the Vitest-UI.
 ## Usage: vitest-ui
-## Example: "ddev vitest-ui", "ddev vitest-ui -s", "ddev vitest-ui --start
+## Example: "ddev vitest-ui", "ddev vitest-ui -s", "ddev vitest-ui --start"
 
 if ! command -v ./node_modules/.bin/vitest  >/dev/null; then
   echo "Vitest is not available. You may need to install it. Eg. 'npm install -D vitest'"
