@@ -79,9 +79,11 @@ teardown() {
   # Add tests.
   cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
 
+  # Add Vitest configuration
+  cp ${DIR}/vite.config.js ${TESTDIR}/vite.config.js
+
   # Start vitest server in the background
-  nohup ddev vitest --ui > vitest.log 2>&1 &
-  vitest-ui_health_checks
+  ddev vitest --ui | grep "UI started at http://0.0.0.0:51204/__vitest__/"
 }
 
 @test "vitest-ui can start UI server" {
