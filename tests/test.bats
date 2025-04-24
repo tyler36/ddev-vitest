@@ -97,9 +97,11 @@ teardown() {
   # Add tests.
   cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
 
-  # Start vitest server in the background
-  nohup ddev vitest-ui -s > vitest.log 2>&1 &
-  vitest-ui_health_checks
+  # Add Vitest configuration
+  cp ${DIR}/vite.config.js ${TESTDIR}/vite.config.js
+
+  # Confirm command starts server
+  ddev vitest-ui -s | grep "UI started at http://0.0.0.0:51204/__vitest__/"
 }
 
 # bats test_tags=release
