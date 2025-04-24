@@ -16,23 +16,6 @@ health_checks() {
   ddev exec "curl -s https://localhost:443/"
 }
 
-vitest-ui_health_checks() {
-  set -eu -o pipefail
-
-  # Check if the server is up
-  for i in {1..10}; do
-    if curl -s "https://${PROJNAME}.ddev.site:51204/__vitest__/" | grep "<title>Vitest</title>"; then
-      echo "Site is accessible"
-      return 0
-    fi
-    echo "Waiting for server..."
-    sleep 1
-  done
-
-  echo "Server did not start within the expected time."
-  exit 1
-}
-
 teardown() {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
