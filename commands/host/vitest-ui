@@ -11,6 +11,7 @@ if ! command -v ./node_modules/.bin/vitest  >/dev/null; then
 fi
 
 launch() {
+  sleep 5
   ddev launch :51204/__vitest__/
 }
 
