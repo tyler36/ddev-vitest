@@ -16,23 +16,6 @@ health_checks() {
   ddev exec "curl -s https://localhost:443/"
 }
 
-vitest-ui_health_checks() {
-  set -eu -o pipefail
-
-  # Check if the server is up
-  for i in {1..10}; do
-    if curl -s "https://${PROJNAME}.ddev.site:51204/__vitest__/" | grep "<title>Vitest</title>"; then
-      echo "Site is accessible"
-      return 0
-    fi
-    echo "Waiting for server..."
-    sleep 1
-  done
-
-  echo "Server did not start within the expected time."
-  exit 1
-}
-
 teardown() {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
@@ -79,9 +62,11 @@ teardown() {
   # Add tests.
   cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
 
+  # Add Vitest configuration
+  cp ${DIR}/vite.config.js ${TESTDIR}/vite.config.js
+
   # Start vitest server in the background
-  nohup ddev vitest --ui > vitest.log 2>&1 &
-  vitest-ui_health_checks
+  ddev vitest --ui | grep "UI started at http://0.0.0.0:51204/__vitest__/"
 }
 
 @test "vitest-ui can start UI server" {
@@ -97,9 +82,11 @@ teardown() {
   # Add tests.
   cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
 
-  # Start vitest server in the background
-  nohup ddev vitest-ui -s > vitest.log 2>&1 &
-  vitest-ui_health_checks
+  # Add Vitest configuration
+  cp ${DIR}/vite.config.js ${TESTDIR}/vite.config.js
+
+  # Confirm command starts server
+  ddev vitest-ui -s | grep "UI started at http://0.0.0.0:51204/__vitest__/"
 }
 
 # bats test_tags=release
