@@ -6,3 +6,9 @@ project_files:
   - config.vitest-ui.yaml
   - commands/host/vitest-ui
   - commands/web/vitest
+
+# Version constraint for DDEV that will be validated against the running DDEV executable
+# and prevent add-on from being installed if it doesn't validate.
+# See https://github.com/Masterminds/semver#checking-version-constraints for constraint rules.
+# Available with DDEV v1.23.4+, and works only for DDEV v1.23.4+ binaries
+ddev_version_constraint: '>= v1.24.3'
