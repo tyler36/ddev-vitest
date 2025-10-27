@@ -11,6 +11,12 @@ if ! command -v ./node_modules/.bin/vitest  >/dev/null; then
 fi
 
 launch() {
+  # Skip browser launch in CI environments
+  if [[ "${CI:-}" == "true" ]]; then
+    echo "Skipping browser launch in CI environment"
+    return 0
+  fi
+
   sleep 5
   ddev launch :51204/__vitest__/
 }
