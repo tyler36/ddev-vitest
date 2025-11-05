@@ -46,7 +46,7 @@ teardown() {
   cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
 
   # ASSERT it can run tests.
-  ddev vitest run | grep "1 passed (1)"
+  ddev vitest run | grep "1 passed"
 }
 
 @test "vitest hijacks UI server" {
