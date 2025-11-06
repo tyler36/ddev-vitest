@@ -41,6 +41,9 @@ setup() {
 health_checks() {
   # We check that we haven't broken the main site here.
   ddev exec "curl -s https://localhost:443/"
+
+  # ASSERT it can run tests.
+  ddev vitest run | grep "1 passed"
 }
 
 UI_server_health_check() {
@@ -97,28 +100,10 @@ teardown() {
   run ddev npm install -D vitest @vitest/ui
   assert_success
 
-  health_checks
-}
-
-@test "vitest helper command" {
-  set -eu -o pipefail
-
-  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in $(pwd)" >&3
-  run ddev add-on get "${DIR}"
-  assert_success
-
-  run ddev restart -y
-  assert_success
-
-  # Add required node package.
-  run ddev npm install -D vitest @vitest/ui
-  assert_success
-
   # Add tests.
   cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
 
-  # ASSERT it can run tests.
-  ddev vitest run | grep "1 passed"
+  health_checks
 }
 
 @test "vitest hijacks UI server" {
@@ -188,6 +173,9 @@ teardown() {
   # Add required node package.
   run ddev npm install -D vitest @vitest/ui
   assert_success
+
+  # Add tests.
+  cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
 
   health_checks
 }
