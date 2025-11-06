@@ -5,46 +5,22 @@
 
 # ddev-vitest <!-- omit in toc -->
 
-- [What is ddev-vitest?](#what-is-ddev-vitest)
-- [Components of the repository](#components-of-the-repository)
-- [Getting started](#getting-started)
-- [Commands](#commands)
-  - [`ddev vitest`](#ddev-vitest)
-  - [`ddev vitest-ui`](#ddev-vitest-ui)
-- [Auto-start Vitest UI](#auto-start-vitest-ui)
-- [Vite](#vite)
+## Overview?
 
-## What is ddev-vitest?
-
-`ddev-vitest` is a helper add-on for DDEV that improves the developer experience for projects using Vitest.
+[ddev-vitest](https://github.com/tyler36/ddev-vitest) is a helper add-on for DDEV that improves the developer experience for projects using Vitest.
 
 [Vitest](https://vitest.dev/) describes itself as a "next generation testing framework", a fast "Vite-native" testing framework.
 
-## Components of the repository
+## Installation
 
-- [config.vitest-ui.yaml](config.vitest-ui.yaml): a configuration file that exposes the Vitest UI port.
-- [commands/web/vitest](commands/web/vitest): a helper command for Vitest
-- [commands/host/vitest-ui](commands/host/vitest-ui): a helper command for to launch the Vitest UI site.
-- [install.yaml](install.yaml): DDEV installation file
-- [test.bats](tests/test.bats): test suite to ensure the add-on is working.
-- [Github actions setup](.github/workflows/tests.yml): file to automate checks and tests.
+```shell
+ddev add-on get tyler36/ddev-vitest
+ddev restart
+```
 
-## Getting started
+After installation, make sure to commit the .ddev directory to version control.
 
-This add-on assumes the developer has:
-
-- Installed Vitest via their preferred package manager.
-
-1. Install the add-on and restart DDEV
-
-   ```shell
-   ddev add-on get tyler36/ddev-vitest
-   ddev restart
-   ```
-
-## Commands
-
-### `ddev vitest`
+## Usage
 
 `ddev vitest` is a helper command to run Vitest from the host.
 It accepts all flags accepted by vitest.
@@ -54,20 +30,18 @@ For example, to see the currently installed version of Vitest:
   ddev vitest --version
   ```
 
+### Commands
+
+| Command             | Description                                          |
+| ------------------- | ---------------------------------------------------- |
+| `ddev vitest`       | Run Vitest from host                                 |
+| `ddev vitest-ui -s` | Start and launch Vitest UI server in default browser |
+| `ddev vitest-ui`    | Launch Vitest UI server in default browser           |
+
 > [!NOTE]
 > If you attempt to start Vitest UI via `ddev vitest --ui`, this addon hijacks the command and re-writes it to be compatible with DDEV.
 
-### `ddev vitest-ui`
-
-Use the following command to start the Vitest UI server and launch the site in your default browser:
-
-```shell
-ddev vitest-ui -s
-```
-
-If the server is already started, use `ddev vitest-ui` to launch the site
-
-## Auto-start Vitest UI
+### Auto-start Vitest UI
 
 Use DDEV's `post-start` hook to automatically start Vitest UI.
 
@@ -87,4 +61,6 @@ For more information about using Vite with DDEV,
 - [tyler36/ddev-vite](https://github.com/tyler36/ddev-vite): a DDEV addon for Vite.
 - Matthias Andrasch's excellent blog post - [Working with Vite in DDEV - an introduction](https://ddev.com/blog/working-with-vite-in-ddev/).
 
-**Contributed and maintained by `tyler36`**
+## Credits
+
+**Contributed and maintained by [`tyler36`](https://github.com/tyler36)**
