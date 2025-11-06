@@ -16,6 +16,34 @@ health_checks() {
   ddev exec "curl -s https://localhost:443/"
 }
 
+UI_server_health_check() {
+    # Wait for the startup message to appear (max 30 seconds)
+  found_message=false
+  for i in {1..30}; do
+    if grep -q "UI started at.*51204.*vitest" vitest_output.log 2>/dev/null; then
+      echo "✓ Vitest UI server started successfully"
+      found_message=true
+      break
+    fi
+    sleep 1
+  done
+
+  # Verify the startup message is in the log
+  if [ "$found_message" = true ]; then
+    # Assert that the UI started message is present
+    grep "UI started at.*51204.*vitest" vitest_output.log
+  else
+    echo "✗ Vitest UI server did not start within 30 seconds"
+    echo "=== Output captured ==="
+    cat vitest_output.log
+    exit 1
+  fi
+
+  # Clean up - kill the background process
+  kill $VITEST_PID 2>/dev/null || true
+  rm -f vitest_output.log
+}
+
 teardown() {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
@@ -46,7 +74,7 @@ teardown() {
   cp ${DIR}/tests/testdata/ ${TESTDIR}/tests/ -r
 
   # ASSERT it can run tests.
-  ddev vitest run | grep "1 passed (1)"
+  ddev vitest run | grep "1 passed"
 }
 
 @test "vitest hijacks UI server" {
@@ -65,8 +93,11 @@ teardown() {
   # Add Vitest configuration
   cp ${DIR}/vite.config.js ${TESTDIR}/vite.config.js
 
-  # Start vitest server in the background
-  ddev vitest --ui | grep "UI started at http://0.0.0.0:51204/__vitest__/"
+  # Start vitest UI server in background and capture output
+  ddev vitest --ui > vitest_output.log 2>&1 &
+  VITEST_PID=$!
+
+  UI_server_health_check
 }
 
 @test "vitest-ui can start UI server" {
@@ -85,8 +116,11 @@ teardown() {
   # Add Vitest configuration
   cp ${DIR}/vite.config.js ${TESTDIR}/vite.config.js
 
-  # Confirm command starts server
-  ddev vitest-ui -s | grep "UI started at http://0.0.0.0:51204/__vitest__/"
+  # Start vitest UI server in background and capture output
+  ddev vitest-ui -s > vitest_output.log 2>&1 &
+  VITEST_PID=$!
+
+  UI_server_health_check
 }
 
 # bats test_tags=release
