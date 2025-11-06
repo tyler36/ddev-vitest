@@ -1,7 +1,7 @@
 [![add-on registry](https://img.shields.io/badge/DDEV-Add--on_Registry-blue)](https://addons.ddev.com)
 [![tests](https://github.com/tyler36/ddev-vitest/actions/workflows/tests.yml/badge.svg)](https://github.com/tyler36/ddev-vitest/actions/workflows/tests.yml)
-[![last commit](https://img.shields.io/github/last-commit/tyler36/ddev-vite)](https://github.com/tyler36/ddev-vite/commits)
-[![release](https://img.shields.io/github/v/release/tyler36/ddev-vite)](https://github.com/tyler36/ddev-vite/releases/latest)
+[![last commit](https://img.shields.io/github/last-commit/tyler36/ddev-vitest)](https://github.com/tyler36/ddev-vitest/commits)
+[![release](https://img.shields.io/github/v/release/tyler36/ddev-vitest)](https://github.com/tyler36/ddev-vitest/releases/latest)
 
 # ddev-vitest <!-- omit in toc -->
 
